@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!-- requires unicode layer to be activated in keyboard preferences.
+can add an additional shift-modififer layer on top of alt-option for more symbols. or just use right shift instead of alt-option as the modifier if you dont need that many symbols.
+incorporate a stick so it works like caps lock so that dont have to hold down key? will need a time out if you continue to hold down past a point so that it operates like a normal non-sticky modifier.
+-->
+
+<root>
+<item>
+  <name>Math Layer</name>
+  <vkchangeinputsourcedef>
+    <name>KeyCode::VK_CHANGE_INPUTSOURCE_UNICODEHEX</name>
+    <inputsourceid_equal>com.apple.keylayout.UnicodeHexInput</inputsourceid_equal>
+  </vkchangeinputsourcedef>
+    <vkchangeinputsourcedef>
+    <name>KeyCode::VK_CHANGE_INPUTSOURCE_ROMAJI</name>
+    <inputsourceid_equal>com.apple.inputmethod.Kotoeri.Roman</inputsourceid_equal>
+  </vkchangeinputsourcedef>
+
+  <item>
+    <name>Right option/alt/alt-graph as modifier</name>
+    <appendix>- R_Option + i = intersection, ∩ (U+2229)</appendix>
+    <appendix>- R_Option + u = union, ∪ (U+222A) </appendix>
+    <identifier>private.unicode_hex_input_modifier_right_option</identifier>
+    <autogen>
+      __KeyToKey__
+      KeyCode::OPTION_R,
+      @begin
+      KeyCode::VK_CONFIG_FORCE_ON_private_math_layer_message,
+      KeyCode::VK_CONFIG_SYNC_KEYDOWNUP_notsave_private_unicode_hex_input_modifier_flag,
+      @end
+
+      Option::KEYTOKEY_BEFORE_KEYDOWN,
+      <!-- change input source to Unicode Hex Input -->
+      KeyCode::VK_CHANGE_INPUTSOURCE_UNICODEHEX,
+      <!-- wait until input source will be changed -->
+      KeyCode::VK_WAIT_100MS,
+
+      Option::KEYTOKEY_AFTER_KEYUP,
+      <!-- change input source to Japanese Romaji -->
+      @begin
+      KeyCode::VK_CONFIG_FORCE_OFF_private_math_layer_message,
+      KeyCode::VK_CHANGE_INPUTSOURCE_ROMAJI,
+      @end
+    </autogen>
+
+      <block>
+      <config_only>notsave.private_unicode_hex_input_modifier_flag</config_only>
+
+        <autogen>
+        <!-- Modifier + i = intersection, ∩ (U+2229) -->
+        --KeyToKey--
+        KeyCode::I,
+        KeyCode::KEY_2, ModifierFlag::OPTION_L,
+        KeyCode::KEY_2, ModifierFlag::OPTION_L,
+        KeyCode::KEY_2, ModifierFlag::OPTION_L,
+        KeyCode::KEY_9, ModifierFlag::OPTION_L,
+        </autogen>
+        <autogen>
+        <!-- Modifier + u = union, ∪ (U+222A) -->
+        --KeyToKey--
+        KeyCode::U,
+        KeyCode::KEY_2, ModifierFlag::OPTION_L,
+        KeyCode::KEY_2, ModifierFlag::OPTION_L,
+        KeyCode::KEY_2, ModifierFlag::OPTION_L,
+        KeyCode::A, ModifierFlag::OPTION_L,
+        </autogen>
+
+    </block>
+  </item>
+
+
+  <item>
+    <name>Right shift as modifier</name>
+    <appendix>- R_Shift + i = intersection, ∩ (U+2229)</appendix>
+    <appendix>- R_Shift + u = union, ∪ (U+222A) </appendix>
+    <identifier>private.unicode_hex_input_modifier_rightshift</identifier>
+    <autogen>
+      __KeyToKey__
+      KeyCode::SHIFT_R,
+      @begin
+      KeyCode::VK_CONFIG_FORCE_ON_private_math_layer_message,
+      KeyCode::VK_CONFIG_SYNC_KEYDOWNUP_notsave_private_unicode_hex_input_modifier_flag,
+      @end
+
+      Option::KEYTOKEY_BEFORE_KEYDOWN,
+      <!-- change input source to Unicode Hex Input -->
+      KeyCode::VK_CHANGE_INPUTSOURCE_UNICODEHEX,
+      <!-- wait until input source will be changed -->
+      KeyCode::VK_WAIT_100MS,
+
+      Option::KEYTOKEY_AFTER_KEYUP,
+      <!-- change input source to Japanese Romaji -->
+      @begin
+      KeyCode::VK_CONFIG_FORCE_OFF_private_math_layer_message,
+      KeyCode::VK_CHANGE_INPUTSOURCE_ROMAJI,
+      @end
+    </autogen>
+
+<!--     block for the option-modifier layer will need to be duplicated for the shift-modifier layer here -->
+
+  </item>
+
+
+  <item hidden="true">
+    <identifier vk_config="true">notsave.private_unicode_hex_input_modifier_flag</identifier>
+  </item>
+    <item hidden="true">
+    <identifier vk_config="true">private.math_layer_message</identifier>
+    <autogen>__ShowStatusMessage__ Math Layer</autogen>
+  </item> 
+</item>
+</root>
